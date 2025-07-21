@@ -5,9 +5,12 @@ PPSeg::PPSeg(const std::string& model_path)
       session_options_(),
       session_(env_, model_path.c_str(), session_options_) {}
 
-cv::Mat PPSeg::segment(const cv::Mat& image) {
+void PPSeg::segment(const cv::Mat& image) {
   cv::Mat input_tensor = preprocess(image);  // [1,C,H,W]
-  if (input_tensor.empty()) return {};
+  if (input_tensor.empty()) {
+    std::cerr << "Failed to preprocess image" << std::endl;
+    return;
+  }
 
   std::vector<int64_t> input_dims = {1, 3, input_size_.height,
                                      input_size_.width};

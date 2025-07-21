@@ -9,7 +9,7 @@ class PPSeg {
  public:
   PPSeg(const std::string& model_path);
 
-  cv::Mat segment(const cv::Mat& image);
+  void segment(const cv::Mat& image);
 
   std::vector<uint8_t> getColorMapList(
       int num_classes, const std::vector<uint8_t>& custom_color = {});
