@@ -62,6 +62,26 @@ cv::Mat PPSeg::segment(const cv::Mat& image) {
   std::string save_path = "output.png";
   cv::imwrite(save_path, color_mask);
   std::cout << "Saved prediction: " << save_path << std::endl;
+
+  // === 在原图上画出mask轮廓 ===
+  // 1. 先将mask resize回原图大小
+  cv::Mat mask_resized;
+  cv::resize(mask, mask_resized, image.size(), 0, 0, cv::INTER_NEAREST);
+
+  // 2. 查找轮廓
+  std::vector<std::vector<cv::Point>> contours;
+  cv::findContours(mask_resized, contours, cv::RETR_EXTERNAL,
+                   cv::CHAIN_APPROX_SIMPLE);
+
+  // 3. 在原图上画轮廓
+  cv::Mat image_with_contour = image.clone();
+  cv::drawContours(image_with_contour, contours, -1, cv::Scalar(0, 0, 255),
+                   2);  // 红色
+
+  // 4. 保存结果
+  std::string contour_path = "output_contour.png";
+  cv::imwrite(contour_path, image_with_contour);
+  std::cout << "Saved contour image: " << contour_path << std::endl;
 }
 
 std::vector<uint8_t> PPSeg::getColorMapList(
