@@ -1,0 +1,10 @@
+对应的paddleseg版本: 2.10.0
+github:https://github.com/PaddlePaddle/PaddleSeg/tree/v2.10.0
+
+导出ONNX模型命令：
+python tools/model/export_onnx.py --config configs/pp_mobileseg/pp_mobileseg_base_camvid_1024x1024.yml --model_path output/pp_mobileseg_base/best_model/model.pdparams --width 1024 --height 1024
+
+导出ONNX模型后，使用以下命令进行推理：
+python infer_onnx_.py
+
+c++推理
